@@ -6,8 +6,7 @@
 
 export const sendMessage = async (text, language = "en") => {
   try {
-    // need to add api url
-    const response = await fetch("https://<your-api-url>.amazonaws.com/api/chat", {
+    const response = await fetch("http://127.0.0.1:8000/chat", {  
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ input: text, language })
@@ -18,7 +17,7 @@ export const sendMessage = async (text, language = "en") => {
     return {
       text: data.response,
       sender: "bot",
-      audio: data.audio  // may not work
+      audio: data.audio
     };
   } catch (error) {
     console.error("Error sending message:", error);
