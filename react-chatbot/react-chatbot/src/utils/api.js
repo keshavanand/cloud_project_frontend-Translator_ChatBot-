@@ -1,25 +1,24 @@
 // Placeholder for AWS API calls
-export const sendMessage = async (message, language = "en") => {
+export const sendMessage = async (text, language = "en") => {
   try {
-    const response = await fetch("https://<your-chalice-api-endpoint>/chat", {
+    const response = await fetch("http://127.0.0.1:8000/chat", {  
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        input: message,
-        language: language,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input: text, language })
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
     const data = await response.json();
-    return { text: data.response, audio: data.audio, sender: "bot" };
+
+    return {
+      text: data.response,
+      sender: "bot",
+      audio: data.audio
+    };
   } catch (error) {
-    console.error("Error sending message to backend:", error);
-    return { text: "Sorry, something went wrong. Please try again later.", sender: "bot" };
+    console.error("Error sending message:", error);
+    return {
+      text: "Sorry, something went wrong.",
+      sender: "bot"
+    };
   }
 };
